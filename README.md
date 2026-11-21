@@ -1,4 +1,4 @@
-# PHÒNG KHÁM ICTU — KT3 TÍCH HỢP AI
+# PHÒNG KHÁM ICTU — TÍCH HỢP AI
 
 Hệ thống quản lý phòng khám của Nhóm 02, xây dựng bằng **HTML/CSS/JavaScript + FastAPI + SQLAlchemy + PostgreSQL/Docker**, tích hợp AI thật qua **Gemini API** (hoặc endpoint OpenAI-compatible). Bản này kế thừa nghiệp vụ KT2 và hoàn thiện phần KT3: AI nằm trong đúng luồng nghiệp vụ, có RBAC, giảm dữ liệu nhạy cảm, prompt tách khỏi code, kiểm soát đầu ra, log, xử lý lỗi và test.
 
@@ -14,7 +14,7 @@ Hệ thống quản lý phòng khám của Nhóm 02, xây dựng bằng **HTML/C
 | Kế toán | Dịch vụ, hóa đơn/thanh toán, tra cứu tài chính, thống kê doanh thu |
 | Bệnh nhân | Hồ sơ cá nhân, lịch cá nhân, chatbot quy trình, xem hướng dẫn sau khám đã được duyệt |
 
-## 2. Ba chức năng AI của KT3
+## 2. Ba chức năng AI 
 
 ### 2.1 AI tóm tắt hồ sơ khám
 `POST /api/ai/summary/{patient_id}` — chỉ Bác sĩ sử dụng. Backend kiểm tra Bác sĩ hiện tại, chỉ lấy `medical_records` thuộc lịch của chính Bác sĩ đó và chỉ gửi các trường cần thiết: thời gian khám, triệu chứng, kết luận, đơn thuốc và ghi chú bác sĩ. Không gửi họ tên, điện thoại, địa chỉ, ngày sinh hay `user_id` tới model.
@@ -164,7 +164,7 @@ AI_MAX_OUTPUT_TOKENS=2048
 
 Nếu model trong tài khoản Gemini của bạn thay đổi/không còn khả dụng, cập nhật `AI_MODEL` theo model mà API key hiện tại được cấp quyền rồi khởi động lại Backend.
 
-## 10. Kiểm thử KT3
+## 10. Kiểm thử 
 
 Trong `clinic_ai_demo_backend` có thể chạy:
 
@@ -176,27 +176,6 @@ Script kiểm tra cấu trúc prompt/cấu hình và chạy toàn bộ unit test
 
 Kiểm thử end-to-end phụ thuộc API key/quota/provider tại thời điểm chạy. Các kết quả thực tế đã quan sát và các trường hợp còn cần chụp minh chứng được ghi trung thực trong `docs/AI_TEST_CASES_KT3.md`.
 
-## 11. Tài liệu minh chứng chấm KT3
-
-- `docs/PROMPT_EXPERIMENTS_KT3.md` — 3 vòng prompt và kết quả/điều chỉnh.
-- `docs/AI_TEST_CASES_KT3.md` — đúng/sai/biên, unit test và E2E.
-- `docs/AI_SDLC_EVIDENCE_KT3.md` — AI review/refactor/bảo mật và lỗi thực tế.
-- `docs/REPORT_ALIGNMENT.md` — đối chiếu source với phạm vi báo cáo.
-
-### Đối chiếu 10 tiêu chí KT3
-
-| Tiêu chí | Minh chứng trong project |
-|---|---|
-| 1. AI tích hợp vào hệ thống | 3 API AI + UI theo đúng vai trò/nghiệp vụ |
-| 2. Kết nối API/model | `ai_service.py`, `.env.example`, Gemini/OpenAI-compatible |
-| 3. Prompt có hệ thống | `app/prompts/*`, tách system/user khỏi code |
-| 4. Tối ưu prompt ≥3 vòng | `app/prompts/history/*` + `PROMPT_EXPERIMENTS_KT3.md` |
-| 5. Dùng dữ liệu hệ thống có kiểm soát | Summary/Guidance lấy DB sau RBAC và giảm PII |
-| 6. Output rõ ràng/cảnh báo | UI AI + Markdown an toàn + warning |
-| 7. Xử lý lỗi/giới hạn AI | timeout, 429, 5xx, malformed, empty, too long, max token |
-| 8. Kiểm thử | `tests/`, `AI_TEST_CASES_KT3.md`, `verify_kt3.bat` |
-| 9. AI review/cải thiện code | `AI_SDLC_EVIDENCE_KT3.md` |
-| 10. UX AI tự nhiên | AI nằm trong luồng Bệnh nhân/Bác sĩ; Guidance duyệt trước lưu |
 
 ## 12. Kịch bản demo khuyến nghị
 
